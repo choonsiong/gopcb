@@ -11,18 +11,20 @@ func main() {
 	flags := flag.Args()
 
 	if len(flags) == 0 {
-		log.Fatal("no input file")
+		log.Fatal("error no input file")
 	}
 
 	for _, f := range flags {
 		_, err := os.Stat(f)
 		if err != nil {
-			continue // skip missing file
+			log.Println(err)
+			continue
 		}
 
 		mtd, err := parse(f)
 		if err != nil {
 			log.Println(err)
+			continue
 		}
 		//fmt.Println(mtd)
 		mtd.Out()
