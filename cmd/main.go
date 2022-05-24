@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
+	"os"
 )
 
 func main() {
@@ -15,10 +15,16 @@ func main() {
 	}
 
 	for _, f := range flags {
+		_, err := os.Stat(f)
+		if err != nil {
+			continue // skip missing file
+		}
+
 		mtd, err := parse(f)
 		if err != nil {
 			log.Println(err)
 		}
-		fmt.Println(mtd)
+		//fmt.Println(mtd)
+		mtd.Out()
 	}
 }

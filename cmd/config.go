@@ -59,3 +59,7 @@ func (d MTDData) String() string {
 	}
 	return s
 }
+
+func (d MTDData) Out() {
+
+}
