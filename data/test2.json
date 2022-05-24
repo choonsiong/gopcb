@@ -1,0 +1,54 @@
+{
+  "employer": {
+    "record_type": "H",
+    "hq_number": "test1",
+    "branch_number": "branch2",
+    "year": "2022",
+    "month": "5",
+    "total_mtd": "10000",
+    "total_mtd_record": "3",
+    "total_cp38": "5000",
+    "total_cp38_record": "3"
+  },
+  "employees": [
+    {
+      "record_type": "D",
+      "tax_reference": "1003",
+      "wife_code": "1",
+      "name": "DANNY LIM",
+      "old_ic": "ABC12345",
+      "new_ic": "ABC12345",
+      "passport": "P123",
+      "country_code": "99",
+      "mtd_amount": "5000",
+      "cp38_amount": "2500",
+      "number": "9003"
+    },
+    {
+      "record_type": "D",
+      "tax_reference": "1004",
+      "wife_code": "2",
+      "name": "JACKY CHANG",
+      "old_ic": "ABC999",
+      "new_ic": "ABC999",
+      "passport": "P999",
+      "country_code": "99",
+      "mtd_amount": "4000",
+      "cp38_amount": "2000",
+      "number": "9003"
+    },
+    {
+      "record_type": "D",
+      "tax_reference": "1005",
+      "wife_code": "2",
+      "name": "WENDY LOW",
+      "old_ic": "ABC999",
+      "new_ic": "ABC999",
+      "passport": "P999",
+      "country_code": "99",
+      "mtd_amount": "1000",
+      "cp38_amount": "500",
+      "number": "9005"
+    }
+  ]
+}
