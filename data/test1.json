@@ -5,10 +5,10 @@
     "branch_number": "branch1",
     "year": "2022",
     "month": "5",
-    "total_mtd": "1000",
-    "total_mtd_record": "2",
-    "total_cp38": "500",
-    "total_cp38_record": "2"
+    "total_mtd": 1000.00,
+    "total_mtd_record": 2,
+    "total_cp38": 500.00,
+    "total_cp38_record": 2
   },
   "employees": [
     {
@@ -20,8 +20,8 @@
       "new_ic": "ABC12345",
       "passport": "P123",
       "country_code": "99",
-      "mtd_amount": "500",
-      "cp38_amount": "250",
+      "mtd_amount": 500,
+      "cp38_amount": 250,
       "number": "9001"
     },
     {
@@ -33,8 +33,8 @@
       "new_ic": "ABC999",
       "passport": "P999",
       "country_code": "99",
-      "mtd_amount": "500",
-      "cp38_amount": "250",
+      "mtd_amount": 500,
+      "cp38_amount": 250,
       "number": "9002"
     }
   ]

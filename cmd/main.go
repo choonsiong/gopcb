@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"os"
 )
@@ -26,7 +27,8 @@ func main() {
 			log.Println(err)
 			continue
 		}
-		//fmt.Println(mtd)
-		mtd.Out()
+		mtd.Normalize()
+		fmt.Println(mtd)
+		//mtd.Out()
 	}
 }

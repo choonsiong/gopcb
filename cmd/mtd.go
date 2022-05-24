@@ -2,64 +2,128 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
+	"github.com/choonsiong/golib/format"
 	"io/ioutil"
+	"strconv"
 )
 
 type MTDData struct {
-	Employer  Header   `json:"employer"`
-	Employees []Detail `json:"employees"`
+	Employer  *Header   `json:"employer"`
+	Employees []*Detail `json:"employees"`
 }
 
 type Header struct {
-	RecordType      string `json:"record_type"`
-	HQNumber        string `json:"hq_number"`     // head quarter employer number
-	BranchNumber    string `json:"branch_number"` // branch employer number
-	Year            string `json:"year"`          // year of deduction
-	Month           string `json:"month"`         // month of deduction
-	TotalMTD        string `json:"total_mtd"`     // total MTD amount
-	TotalMTDRecord  string `json:"total_mtd_record"`
-	TotalCP38       string `json:"total_cp38"` // total CP38 amount
-	TotalCP38Record string `json:"total_cp38_record"`
+	RecordType      string  `json:"record_type"`
+	HQNumber        string  `json:"hq_number"`     // head quarter employer number
+	BranchNumber    string  `json:"branch_number"` // branch employer number
+	Year            string  `json:"year"`          // year of deduction
+	Month           string  `json:"month"`         // month of deduction
+	TotalMTD        float64 `json:"total_mtd"`     // total MTD amount
+	TotalMTDRecord  int     `json:"total_mtd_record"`
+	TotalCP38       float64 `json:"total_cp38"` // total CP38 amount
+	TotalCP38Record int     `json:"total_cp38_record"`
 }
 
 type Detail struct {
-	RecordType   string `json:"record_type"`
-	TaxReference string `json:"tax_reference"` // tax reference number
-	WifeCode     string `json:"wife_code"`
-	Name         string `json:"name"` // employee name
-	OldIC        string `json:"old_ic"`
-	NewIC        string `json:"new_ic"`
-	Passport     string `json:"passport"`
-	CountryCode  string `json:"country_code"`
-	MTDAmount    string `json:"mtd_amount"`
-	CP38Amount   string `json:"cp38_amount"`
-	Number       string `json:"number"` // employee number
+	RecordType   string  `json:"record_type"`
+	TaxReference string  `json:"tax_reference"` // tax reference number
+	WifeCode     string  `json:"wife_code"`
+	Name         string  `json:"name"` // employee name
+	OldIC        string  `json:"old_ic"`
+	NewIC        string  `json:"new_ic"`
+	Passport     string  `json:"passport"`
+	CountryCode  string  `json:"country_code"`
+	MTDAmount    float64 `json:"mtd_amount"`
+	CP38Amount   float64 `json:"cp38_amount"`
+	Number       string  `json:"number"` // employee number
 }
 
-func parse(f string) (MTDData, error) {
-	var mtd MTDData
+func parse(f string) (*MTDData, error) {
+	mtd := new(MTDData)
 	bs, err := ioutil.ReadFile(f)
 	if err != nil {
-		return mtd, err
+		return nil, err
 	}
-	err = json.Unmarshal(bs, &mtd)
+	err = json.Unmarshal(bs, mtd)
 	if err != nil {
-		return mtd, err
+		return nil, err
 	}
 	return mtd, nil
 }
 
-func (d MTDData) String() string {
-	s := d.Employer.RecordType + "," + d.Employer.HQNumber + "," + d.Employer.BranchNumber + "," + d.Employer.Year + "," + d.Employer.Month + "," + d.Employer.TotalMTD + "," + d.Employer.TotalMTDRecord + "," + d.Employer.TotalCP38 + "," + d.Employer.TotalCP38Record + "\n"
+func (d *MTDData) String() string {
+	s := d.Employer.RecordType + "," + d.Employer.HQNumber + "," + d.Employer.BranchNumber + "," + d.Employer.Year + "," + d.Employer.Month + "," + fmt.Sprintf("%f", d.Employer.TotalMTD) + "," + strconv.Itoa(d.Employer.TotalMTDRecord) + "," + fmt.Sprintf("%f", d.Employer.TotalCP38) + "," + strconv.Itoa(d.Employer.TotalCP38Record) + "\n"
 
 	if len(d.Employees) != 0 {
 		for _, e := range d.Employees {
-			s += e.RecordType + "," + e.TaxReference + "," + e.WifeCode + "," + e.Name + "," + e.OldIC + "," + e.NewIC + "," + e.Passport + "," + e.CountryCode + "," + e.MTDAmount + "," + e.CP38Amount + "," + e.Number + "\n"
+			s += e.RecordType + "," + e.TaxReference + "," + e.WifeCode + "," + e.Name + "," + e.OldIC + "," + e.NewIC + "," + e.Passport + "," + e.CountryCode + "," + fmt.Sprintf("%f", e.MTDAmount) + "," + fmt.Sprintf("%f", e.CP38Amount) + "," + e.Number + "\n"
 		}
 	}
 	return s
 }
 
-func (d MTDData) Out() {
+func (d *MTDData) TotalMTDAmount() {
+	var total float64
+	if len(d.Employees) != 0 {
+		for _, e := range d.Employees {
+			total += e.MTDAmount
+		}
+	}
+	d.Employer.TotalMTD = total
+}
+
+func (d *MTDData) TotalMTDRecord() {
+	var count int
+	if len(d.Employees) != 0 {
+		for _, e := range d.Employees {
+			if e.MTDAmount > 0 {
+				count++
+			}
+		}
+	}
+	d.Employer.TotalMTDRecord = count
+}
+
+func (d *MTDData) TotalCP38Amount() {
+	var total float64
+	if len(d.Employees) != 0 {
+		for _, e := range d.Employees {
+			total += e.CP38Amount
+		}
+	}
+	d.Employer.TotalCP38 = total
+}
+
+func (d *MTDData) TotalCP38Record() {
+	var count int
+	if len(d.Employees) != 0 {
+		for _, e := range d.Employees {
+			if e.CP38Amount > 0 {
+				count++
+			}
+		}
+	}
+	d.Employer.TotalCP38Record = count
+}
+
+func (d *MTDData) Normalize() {
+	d.Employer.HQNumber = format.LeftPaddingWithSize(10, d.Employer.HQNumber, "0")
+	d.Employer.BranchNumber = format.LeftPaddingWithSize(10, d.Employer.BranchNumber, "0")
+	d.Employer.Month = format.LeftPaddingWithSize(2, d.Employer.Month, "0")
+
+	if len(d.Employees) != 0 {
+		for _, e := range d.Employees {
+			e.TaxReference = format.LeftPaddingWithSize(10, e.TaxReference, "0")
+			e.Name = format.RightPaddingWithSize(60, e.Name, " ")
+			e.OldIC = format.RightPaddingWithSize(12, e.OldIC, " ")
+			e.NewIC = format.RightPaddingWithSize(12, e.NewIC, " ")
+			e.Passport = format.RightPaddingWithSize(12, e.Passport, " ")
+			e.Number = format.RightPaddingWithSize(10, e.Number, " ")
+		}
+	}
+}
+
+func (d *MTDData) Out() {
 
 }
