@@ -65,10 +65,6 @@ type Detail struct {
 	Number       string  `json:"number"` // employee number
 }
 
-const (
-	bufferSize = 100
-)
-
 func parse(f string) (*MTDData, error) {
 	mtd := new(MTDData)
 	bs, err := ioutil.ReadFile(f)
@@ -222,7 +218,7 @@ func (d *MTDData) out() error {
 	return ioutil.WriteFile(filename, []byte(s), 0644)
 }
 
-func (d *MTDData) bufferOut() error {
+func (d *MTDData) bufferOut(size int) error {
 	s, err := d.Generate()
 	if err != nil {
 		return err
@@ -240,7 +236,7 @@ func (d *MTDData) bufferOut() error {
 
 	src := strings.NewReader(s)
 
-	buf := make([]byte, bufferSize)
+	buf := make([]byte, size)
 
 	for {
 		n, err := src.Read(buf)

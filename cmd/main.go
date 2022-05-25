@@ -30,6 +30,9 @@ import (
 )
 
 func main() {
+	bufferSize := flag.Int("bufferSize", 100, "Buffer size")
+	useBuffer := flag.Bool("useBuffer", false, "Use buffer write")
+
 	flag.Parse()
 	flags := flag.Args()
 
@@ -51,11 +54,18 @@ func main() {
 			continue
 		}
 
-		//err = mtd.out()
-		err = mtd.bufferOut()
-		if err != nil {
-			log.Println(err)
-			continue
+		if *useBuffer {
+			err := mtd.bufferOut(*bufferSize)
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+		} else {
+			err := mtd.out()
+			if err != nil {
+				log.Println(err)
+				continue
+			}
 		}
 	}
 }
