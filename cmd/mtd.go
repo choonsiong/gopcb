@@ -142,6 +142,7 @@ func (d *MTDData) Normalize() {
 			e.OldIC = format.RightPaddingWithSize(12, e.OldIC, " ")
 			e.NewIC = format.RightPaddingWithSize(12, e.NewIC, " ")
 			e.Passport = format.RightPaddingWithSize(12, e.Passport, " ")
+			e.CountryCode = format.LeftPaddingWithSize(2, e.CountryCode, " ")
 			e.Number = format.RightPaddingWithSize(10, e.Number, " ")
 		}
 	}
@@ -189,7 +190,7 @@ func (d *MTDData) Generate() (string, error) {
 			output += e.OldIC
 			output += e.NewIC
 			output += e.Passport
-			output += format.LeftPaddingWithSize(2, e.CountryCode, " ")
+			output += e.CountryCode
 			mtdAmount := format.LeftPaddingWithSize(8, fmt.Sprintf("%.0f", e.MTDAmount*100), "0")
 			output += mtdAmount
 
