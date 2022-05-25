@@ -133,6 +133,8 @@ func (d *MTDData) Generate() (string, error) {
 	d.TotalCP38Amount()
 	d.TotalCP38Record()
 
+	// Header row
+
 	output += d.Employer.RecordType
 	output += d.Employer.HQNumber
 	output += d.Employer.BranchNumber
@@ -145,7 +147,7 @@ func (d *MTDData) Generate() (string, error) {
 	totalMTDRecord := format.LeftPaddingWithSize(5, strconv.Itoa(d.Employer.TotalMTDRecord), "0")
 	output += totalMTDRecord
 
-	totalCP38Amount := format.LeftPaddingWithSize(10, fmt.Sprintf("%.0f", d.Employer.TotalCP38), "0")
+	totalCP38Amount := format.LeftPaddingWithSize(10, fmt.Sprintf("%.0f", d.Employer.TotalCP38*100), "0")
 	output += totalCP38Amount
 
 	totalCP38Record := format.LeftPaddingWithSize(5, strconv.Itoa(d.Employer.TotalCP38Record), "0")
@@ -153,5 +155,38 @@ func (d *MTDData) Generate() (string, error) {
 
 	output += "\n"
 
+	// Details row
+
+	if len(d.Employees) != 0 {
+		for _, e := range d.Employees {
+			output += e.RecordType
+			output += e.TaxReference
+			output += e.WifeCode
+			output += e.Name
+			output += e.OldIC
+			output += e.NewIC
+			output += e.Passport
+			output += format.LeftPaddingWithSize(2, e.CountryCode, " ")
+			mtdAmount := format.LeftPaddingWithSize(8, fmt.Sprintf("%.0f", e.MTDAmount*100), "0")
+			output += mtdAmount
+
+			cp38Amount := format.LeftPaddingWithSize(8, fmt.Sprintf("%.0f", e.CP38Amount*100), "0")
+			output += cp38Amount
+
+			output += e.Number
+			output += "\n"
+		}
+	}
+
 	return output, nil
+}
+
+func (d *MTDData) out() error {
+	s, err := d.Generate()
+	if err != nil {
+		return err
+	}
+
+	filename := "PCB_" + d.Employer.HQNumber + "_" + d.Employer.BranchNumber + "_" + d.Employer.Year + d.Employer.Month + ".txt"
+	return ioutil.WriteFile(filename, []byte(s), 0644)
 }

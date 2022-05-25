@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"os"
 )
@@ -28,8 +27,10 @@ func main() {
 			continue
 		}
 
-		mtd.Generate()
-		fmt.Println(mtd)
-		//mtd.Out()
+		err = mtd.out()
+		if err != nil {
+			log.Println(err)
+			continue
+		}
 	}
 }
