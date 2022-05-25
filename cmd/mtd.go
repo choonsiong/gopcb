@@ -27,8 +27,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/choonsiong/golib/format"
+	"io"
 	"io/ioutil"
+	"os"
 	"strconv"
+	"strings"
 )
 
 type MTDData struct {
@@ -61,6 +64,10 @@ type Detail struct {
 	CP38Amount   float64 `json:"cp38_amount"`
 	Number       string  `json:"number"` // employee number
 }
+
+const (
+	bufferSize = 100
+)
 
 func parse(f string) (*MTDData, error) {
 	mtd := new(MTDData)
@@ -213,4 +220,39 @@ func (d *MTDData) out() error {
 
 	filename := "PCB_" + d.Employer.HQNumber + "_" + d.Employer.BranchNumber + "_" + d.Employer.Year + d.Employer.Month + ".txt"
 	return ioutil.WriteFile(filename, []byte(s), 0644)
+}
+
+func (d *MTDData) bufferOut() error {
+	s, err := d.Generate()
+	if err != nil {
+		return err
+	}
+
+	filename := "PCB_" + d.Employer.HQNumber + "_" + d.Employer.BranchNumber + "_" + d.Employer.Year + d.Employer.Month + ".txt"
+	fh, err := os.Create(filename)
+	if err != nil {
+		return err
+	}
+	defer fh.Close()
+	if err != nil {
+		panic(err)
+	}
+
+	src := strings.NewReader(s)
+
+	buf := make([]byte, bufferSize)
+
+	for {
+		n, err := src.Read(buf)
+		if err != nil && err != io.EOF {
+			return err
+		}
+		if n == 0 {
+			break
+		}
+		if _, err := fh.Write(buf[:n]); err != nil {
+			return err
+		}
+	}
+	return err
 }

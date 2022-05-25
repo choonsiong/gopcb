@@ -51,7 +51,8 @@ func main() {
 			continue
 		}
 
-		err = mtd.out()
+		//err = mtd.out()
+		err = mtd.bufferOut()
 		if err != nil {
 			log.Println(err)
 			continue
