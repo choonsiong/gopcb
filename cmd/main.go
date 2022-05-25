@@ -27,7 +27,8 @@ func main() {
 			log.Println(err)
 			continue
 		}
-		mtd.Normalize()
+
+		mtd.Generate()
 		fmt.Println(mtd)
 		//mtd.Out()
 	}

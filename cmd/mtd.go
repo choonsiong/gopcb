@@ -124,6 +124,34 @@ func (d *MTDData) Normalize() {
 	}
 }
 
-func (d *MTDData) Out() {
+func (d *MTDData) Generate() (string, error) {
+	var output string
 
+	d.Normalize()
+	d.TotalMTDAmount()
+	d.TotalMTDRecord()
+	d.TotalCP38Amount()
+	d.TotalCP38Record()
+
+	output += d.Employer.RecordType
+	output += d.Employer.HQNumber
+	output += d.Employer.BranchNumber
+	output += d.Employer.Year
+	output += d.Employer.Month
+
+	totalMTDAmount := format.LeftPaddingWithSize(10, fmt.Sprintf("%.0f", d.Employer.TotalMTD*100), "0")
+	output += totalMTDAmount
+
+	totalMTDRecord := format.LeftPaddingWithSize(5, strconv.Itoa(d.Employer.TotalMTDRecord), "0")
+	output += totalMTDRecord
+
+	totalCP38Amount := format.LeftPaddingWithSize(10, fmt.Sprintf("%.0f", d.Employer.TotalCP38), "0")
+	output += totalCP38Amount
+
+	totalCP38Record := format.LeftPaddingWithSize(5, strconv.Itoa(d.Employer.TotalCP38Record), "0")
+	output += totalCP38Record
+
+	fmt.Println(output)
+
+	return output, nil
 }
