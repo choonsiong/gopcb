@@ -14,8 +14,9 @@ func main() {
 		log.Fatal("error no input file")
 	}
 
+	// Range over all the input files
 	for _, f := range flags {
-		_, err := os.Stat(f)
+		_, err := os.Stat(f) // Is the file exists?
 		if err != nil {
 			log.Println(err)
 			continue
