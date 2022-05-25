@@ -244,12 +244,6 @@ func (d *MTDData) bufferOut(size int) {
 		return
 	}
 	defer fh.Close()
-	if err != nil {
-		log.Println(err)
-		wg.Done()
-		return
-		//panic(err)
-	}
 
 	src := strings.NewReader(s)
 
