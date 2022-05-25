@@ -4,6 +4,22 @@ This is the improved version of [mypcb](https://github.com/choonsiong/mypcb) add
 - Support multiple input files, e.g. company with different office branches
 - Support multiple employee entries
 
+## Build
+
+To build the command:
+```
+16:02:27 220 gopcb on  main ➜ ls
+LICENSE    README.md  cmd/       data/      go.mod     go.sum     private/
+16:02:28 220 gopcb on  main ➜ cd cmd
+16:02:31 220 cmd on  main ➜ ls
+main.go  mtd.go
+16:02:38 220 cmd on  main ❯ go build -o gopcb
+16:02:46 220 cmd on  main ➜ 
+16:02:48 220 cmd on  main ➜ ls
+gopcb*   main.go  mtd.go
+16:02:49 220 cmd on  main ➜ 
+```
+
 ## Usage
 
 Run the command with two input files:
