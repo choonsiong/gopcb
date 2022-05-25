@@ -29,6 +29,7 @@ import (
 	"github.com/choonsiong/golib/format"
 	"io"
 	"io/ioutil"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -208,30 +209,46 @@ func (d *MTDData) Generate() (string, error) {
 	return output, nil
 }
 
-func (d *MTDData) out() error {
+func (d *MTDData) out() {
 	s, err := d.Generate()
 	if err != nil {
-		return err
+		log.Println(err)
+		wg.Done()
+		return
 	}
 
 	filename := "PCB_" + d.Employer.HQNumber + "_" + d.Employer.BranchNumber + "_" + d.Employer.Year + d.Employer.Month + ".txt"
-	return ioutil.WriteFile(filename, []byte(s), 0644)
+	err = ioutil.WriteFile(filename, []byte(s), 0644)
+	if err != nil {
+		log.Println(err)
+		wg.Done()
+		return
+	}
+
+	wg.Done()
 }
 
-func (d *MTDData) bufferOut(size int) error {
+func (d *MTDData) bufferOut(size int) {
 	s, err := d.Generate()
 	if err != nil {
-		return err
+		log.Println(err)
+		wg.Done()
+		return
 	}
 
 	filename := "PCB_" + d.Employer.HQNumber + "_" + d.Employer.BranchNumber + "_" + d.Employer.Year + d.Employer.Month + ".txt"
 	fh, err := os.Create(filename)
 	if err != nil {
-		return err
+		log.Println(err)
+		wg.Done()
+		return
 	}
 	defer fh.Close()
 	if err != nil {
-		panic(err)
+		log.Println(err)
+		wg.Done()
+		return
+		//panic(err)
 	}
 
 	src := strings.NewReader(s)
@@ -241,14 +258,19 @@ func (d *MTDData) bufferOut(size int) error {
 	for {
 		n, err := src.Read(buf)
 		if err != nil && err != io.EOF {
-			return err
+			log.Println(err)
+			wg.Done()
+			return
 		}
 		if n == 0 {
 			break
 		}
 		if _, err := fh.Write(buf[:n]); err != nil {
-			return err
+			log.Println(err)
+			wg.Done()
+			return
 		}
 	}
-	return err
+
+	wg.Done()
 }

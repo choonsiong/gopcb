@@ -27,7 +27,10 @@ import (
 	"flag"
 	"log"
 	"os"
+	"sync"
 )
+
+var wg = new(sync.WaitGroup)
 
 func main() {
 	bufferSize := flag.Int("bufferSize", 100, "Buffer size")
@@ -40,32 +43,32 @@ func main() {
 		log.Fatal("error no input file")
 	}
 
+	count := len(flags)
+	wg.Add(count)
+
 	// Range over all the input files
 	for _, f := range flags {
 		_, err := os.Stat(f) // Is the file exists?
 		if err != nil {
 			log.Println(err)
+			wg.Done()
 			continue
 		}
 
 		mtd, err := parse(f)
 		if err != nil {
 			log.Println(err)
+			wg.Done()
 			continue
 		}
 
 		if *useBuffer {
-			err := mtd.bufferOut(*bufferSize)
-			if err != nil {
-				log.Println(err)
-				continue
-			}
+			go mtd.bufferOut(*bufferSize)
 		} else {
-			err := mtd.out()
-			if err != nil {
-				log.Println(err)
-				continue
-			}
+			go mtd.out()
+
 		}
 	}
+
+	wg.Wait()
 }
