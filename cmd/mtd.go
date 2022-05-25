@@ -151,7 +151,7 @@ func (d *MTDData) Generate() (string, error) {
 	totalCP38Record := format.LeftPaddingWithSize(5, strconv.Itoa(d.Employer.TotalCP38Record), "0")
 	output += totalCP38Record
 
-	fmt.Println(output)
+	output += "\n"
 
 	return output, nil
 }
