@@ -1,6 +1,4 @@
-github.com/choonsiong/golib v1.0.35 h1:iH6eW++tWwwIKhLitKr0mIdoREXXi0TqOwCWMOkkuhg=
-github.com/choonsiong/golib v1.0.35/go.mod h1:P0kj4re195IOfsdeP5HI2qIM5H01RQo2Wt+2lAmg17M=
-github.com/choonsiong/golib v1.0.36 h1:5nXxRYGZKGy4nW5BtJEJ0WM8HUr6qgKMa/SoteliOXk=
-github.com/choonsiong/golib v1.0.36/go.mod h1:P0kj4re195IOfsdeP5HI2qIM5H01RQo2Wt+2lAmg17M=
-github.com/choonsiong/golib v1.0.39 h1:Rw83BE85u8NkOJsru/8oGXnvkFrSKM0YGMPUyHlNnRA=
-github.com/choonsiong/golib v1.0.39/go.mod h1:P0kj4re195IOfsdeP5HI2qIM5H01RQo2Wt+2lAmg17M=
+github.com/choonsiong/golib v1.0.48 h1:M4w+B7+D3C2XNskRIadGWJFvdpdQ19inbuyfhOlLMow=
+github.com/choonsiong/golib v1.0.48/go.mod h1:DV9Upsm3rQZ+l/nLfCgzyyhyWmddJGY0lWZfWGrUSnM=
+golang.org/x/text v0.3.7 h1:olpwvP2KacW1ZWvsR7uQhoyTYvKAupfQrRGBFM352Gk=
+golang.org/x/text v0.3.7/go.mod h1:u+2+/6zg+i71rQMx5EYifcz6MCKuco9NR6JIITiCfzQ=
