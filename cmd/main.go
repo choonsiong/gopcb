@@ -25,6 +25,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"sync"
@@ -36,11 +37,22 @@ func main() {
 	bufferSize := flag.Int("bufferSize", 100, "Buffer size")
 	useBuffer := flag.Bool("useBuffer", false, "Use buffer write")
 
+	flag.Usage = func() {
+		usage := `usage: gopcb [-flag] ... file1 file2 ...`
+		fmt.Println(usage)
+		fmt.Println()
+		flag.PrintDefaults()
+		fmt.Println()
+		example := `Examples:
+$ gopcb data/file1.json data/file2.json`
+		fmt.Println(example)
+	}
+
 	flag.Parse()
 	flags := flag.Args()
 
 	if len(flags) == 0 {
-		log.Fatal("error no input file")
+		flag.Usage()
 	}
 
 	count := len(flags)

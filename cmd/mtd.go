@@ -162,7 +162,6 @@ func (d *MTDData) Generate() (string, error) {
 	d.TotalCP38Record()
 
 	// Header row
-
 	output += d.Employer.RecordType
 	output += d.Employer.HQNumber
 	output += d.Employer.BranchNumber
@@ -184,7 +183,6 @@ func (d *MTDData) Generate() (string, error) {
 	output += "\n"
 
 	// Details row
-
 	if len(d.Employees) != 0 {
 		for _, e := range d.Employees {
 			output += e.RecordType
