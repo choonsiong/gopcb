@@ -1,4 +1,2 @@
-github.com/choonsiong/golib v1.0.48 h1:M4w+B7+D3C2XNskRIadGWJFvdpdQ19inbuyfhOlLMow=
-github.com/choonsiong/golib v1.0.48/go.mod h1:DV9Upsm3rQZ+l/nLfCgzyyhyWmddJGY0lWZfWGrUSnM=
-golang.org/x/text v0.3.7 h1:olpwvP2KacW1ZWvsR7uQhoyTYvKAupfQrRGBFM352Gk=
-golang.org/x/text v0.3.7/go.mod h1:u+2+/6zg+i71rQMx5EYifcz6MCKuco9NR6JIITiCfzQ=
+github.com/choonsiong/golib/v2 v2.1.2 h1:hEZb/vFLzXTag9Fwr99TmfS9sUogMtsUVRfFGFnRTj0=
+github.com/choonsiong/golib/v2 v2.1.2/go.mod h1:IUzM9lhmQOSQMJ5te6QmEzpd9yJKz/3J5tnUHyKFFvQ=
