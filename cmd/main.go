@@ -21,7 +21,7 @@ func main() {
 		flag.PrintDefaults()
 		fmt.Println()
 		example := `Examples:
-$ gopcb data/file1.json data/file2.json`
+$ gopcb examples/file1.json examples/file2.json`
 		fmt.Println(example)
 	}
 
