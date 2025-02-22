@@ -43,9 +43,11 @@ type Detail struct {
 	Number       string  `json:"number"` // employee number
 }
 
+// parse reads and parses the json formatted file specified. It returns
+// a pointer to a value of type MTDData struct on success, or an error.
 func parse(f string) (*MTDData, error) {
 	mtd := new(MTDData)
-	bs, err := ioutil.ReadFile(f)
+	bs, err := os.ReadFile(f)
 	if err != nil {
 		return nil, err
 	}
