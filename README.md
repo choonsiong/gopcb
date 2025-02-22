@@ -21,6 +21,6 @@ drwxr-x---+ 42 choonsiong  staff     1344 Oct  5 18:41 ../
 -rwxr-xr-x   1 choonsiong  staff  2574530 Oct  5 18:38 gopcb*
  $ ./gopcb ~/etc/gopcb.json 
  $ ls
-PCB_9003393910_9003393910_202209.txt  gopcb*
+PCB_123456789_123456789_202209.txt  gopcb*
  $    
 ```
