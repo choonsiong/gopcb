@@ -19,8 +19,8 @@ total 5032
 drwxr-xr-x   3 choonsiong  staff       96 Oct  5 18:41 ./
 drwxr-x---+ 42 choonsiong  staff     1344 Oct  5 18:41 ../
 -rwxr-xr-x   1 choonsiong  staff  2574530 Oct  5 18:38 gopcb*
- $ ./gopcb ~/etc/gopcb.json 
- $ ls
+$ ./gopcb ~/etc/gopcb.json 
+$ ls
 PCB_123456789_123456789_202209.txt  gopcb*
- $    
+$    
 ```
