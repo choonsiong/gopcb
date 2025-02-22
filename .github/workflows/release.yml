@@ -1,0 +1,27 @@
+name: release
+on:
+  push:
+    tags:
+      - '*'
+
+env:
+  binary-name: gopcb
+  version: 1.5.3
+  arch: linux-x64
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: build
+        run: |
+          make
+          tar -czf ${{ env.binary-name }}-${{ env.arch }}-${{ env.version }}.tar.gz ${{ env.binary-name }}
+      - name: release
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ secrets.DEVOPS_TOKEN }}
+          tag_name: ${{ env.version }}
+          name: release ${{ env.version }}
+          files: ${{ env. binary-name }}-${{ env.arch }}-${{ env.version }}.tar.gz
