@@ -12,11 +12,13 @@ import (
 	"strings"
 )
 
+// MTDData composed of the header and detail part of the MTD data specification
 type MTDData struct {
 	Employer  *Header   `json:"employer"`
 	Employees []*Detail `json:"employees"`
 }
 
+// Header part of the MTD data specification
 type Header struct {
 	RecordType      string  `json:"record_type"`
 	HQNumber        string  `json:"hq_number"`     // head quarter employer number
@@ -29,6 +31,7 @@ type Header struct {
 	TotalCP38Record int     `json:"total_cp38_record"`
 }
 
+// Detail part (transaction record) of the MTD data specification
 type Detail struct {
 	RecordType   string  `json:"record_type"`
 	TaxReference string  `json:"tax_reference"` // tax reference number
@@ -43,8 +46,8 @@ type Detail struct {
 	Number       string  `json:"number"` // employee number
 }
 
-// parse reads and parses the json formatted file specified. It returns
-// a pointer to a value of type MTDData struct on success, or an error.
+// parse reads and parses the json formatted file specified.
+// It returns a pointer to a value of type MTDData struct on success, or an error
 func parse(f string) (*MTDData, error) {
 	mtd := new(MTDData)
 	bs, err := os.ReadFile(f)
@@ -58,6 +61,7 @@ func parse(f string) (*MTDData, error) {
 	return mtd, nil
 }
 
+// String returns formatted string of MTDData
 func (d *MTDData) String() string {
 	s := d.Employer.RecordType + "," + d.Employer.HQNumber + "," + d.Employer.BranchNumber + "," + d.Employer.Year + "," + d.Employer.Month + "," + fmt.Sprintf("%f", d.Employer.TotalMTD) + "," + strconv.Itoa(d.Employer.TotalMTDRecord) + "," + fmt.Sprintf("%f", d.Employer.TotalCP38) + "," + strconv.Itoa(d.Employer.TotalCP38Record) + "\n"
 
@@ -69,6 +73,7 @@ func (d *MTDData) String() string {
 	return s
 }
 
+// TotalMTDAmount calculates the total MTD amount
 func (d *MTDData) TotalMTDAmount() {
 	var total float64
 	if len(d.Employees) != 0 {
@@ -79,6 +84,7 @@ func (d *MTDData) TotalMTDAmount() {
 	d.Employer.TotalMTD = total
 }
 
+// TotalMTDRecord calculates the total MTD record
 func (d *MTDData) TotalMTDRecord() {
 	var count int
 	if len(d.Employees) != 0 {
@@ -91,6 +97,7 @@ func (d *MTDData) TotalMTDRecord() {
 	d.Employer.TotalMTDRecord = count
 }
 
+// TotalCP38Amount calculate the total CP38 amount
 func (d *MTDData) TotalCP38Amount() {
 	var total float64
 	if len(d.Employees) != 0 {
@@ -101,6 +108,7 @@ func (d *MTDData) TotalCP38Amount() {
 	d.Employer.TotalCP38 = total
 }
 
+// TotalCP38Record calculates the total CP38 record
 func (d *MTDData) TotalCP38Record() {
 	var count int
 	if len(d.Employees) != 0 {
@@ -113,6 +121,8 @@ func (d *MTDData) TotalCP38Record() {
 	d.Employer.TotalCP38Record = count
 }
 
+// Normalize ensures that all fields have the correct size and justification
+// according to the MTD data specification
 func (d *MTDData) Normalize() {
 	d.Employer.HQNumber = format.LeftPaddingWithSize(10, d.Employer.HQNumber, "0")
 	d.Employer.BranchNumber = format.LeftPaddingWithSize(10, d.Employer.BranchNumber, "0")
@@ -131,6 +141,7 @@ func (d *MTDData) Normalize() {
 	}
 }
 
+// Generate produces the final output string to be written to an output file
 func (d *MTDData) Generate() (string, error) {
 	var output string
 
@@ -186,6 +197,7 @@ func (d *MTDData) Generate() (string, error) {
 	return output, nil
 }
 
+// out writes output to the output file
 func (d *MTDData) out() {
 	s, err := d.Generate()
 	if err != nil {
@@ -205,6 +217,7 @@ func (d *MTDData) out() {
 	wg.Done()
 }
 
+// bufferOut writes buffer output to the output file
 func (d *MTDData) bufferOut(size int) {
 	s, err := d.Generate()
 	if err != nil {
