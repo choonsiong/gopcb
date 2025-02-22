@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/choonsiong/golib/v2/format"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"strconv"
@@ -207,7 +206,7 @@ func (d *MTDData) out() {
 	}
 
 	filename := "PCB_" + d.Employer.HQNumber + "_" + d.Employer.BranchNumber + "_" + d.Employer.Year + d.Employer.Month + ".txt"
-	err = ioutil.WriteFile(filename, []byte(s), 0644)
+	err = os.WriteFile(filename, []byte(s), 0644)
 	if err != nil {
 		log.Println(err)
 		wg.Done()
