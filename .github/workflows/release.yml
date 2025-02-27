@@ -6,7 +6,7 @@ on:
 
 env:
   binary-name: gopcb
-  version: 1.5.4
+  version: 1.5.5
   arch: linux-x64
 jobs:
   release:
